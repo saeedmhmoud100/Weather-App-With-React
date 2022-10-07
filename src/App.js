@@ -10,6 +10,7 @@ class App extends Component {
   state = {
     country: "",
     city: "",
+    region: "",
     last_updated: "",
     temp_c: 0,
     humidity: 0,
@@ -17,24 +18,75 @@ class App extends Component {
     error: "",
   };
 
-  async SetData(e) {
+  SetData(e) {
     e.preventDefault();
+    /*=============== 1 ============== */
+    // if (e.target.country) {
+    //   let api_data = await fetch(
+    //     `${WEB_LINK}?key=${API_KEY}&q=${e.target.country.value}&aqi=no`
+    //   );
+    //   let data = await api_data.json();
+    //   if (data.error) {
+    //     this.setState({
+    //       country: "",
+    //       city: "",
+    //       region: "",
+    //       last_updated: 0,
+    //       temp_c: 0,
+    //       humidity: "",
+    //       text: "",
+    //       error: data.error.message,
+    //     });
+    //   } else {
+    //     this.setState({
+    //       country: data.location.country,
+    //       city: data.location.name,
+    //       region: data.location.region,
+    //       last_updated: data.current.last_updated,
+    //       temp_c: data.current.temp_c,
+    //       humidity: data.current.humidity,
+    //       text: data.current.condition.text,
+    //       error: "",
+    //     });
+    //   }
+    // }
+    /*=============== 1 ============== */
+
+    /*=============== 2 ============== */
+
     if (e.target.country) {
-      let api_data = await fetch(
-        `${WEB_LINK}?key=${API_KEY}&q=${e.target.country.value}&aqi=no`
-      );
-      let data = await api_data.json();
-      this.setState({
-        country: data.location.country,
-        city: data.location.name,
-        last_updated: data.current.last_updated,
-        temp_c: data.current.temp_c,
-        humidity: data.current.humidity,
-        text: data.current.condition.text,
-        error: data.error ? data.error.message : "",
-      });
+      fetch(`${WEB_LINK}?key=${API_KEY}&q=${e.target.country.value}&aqi=no`)
+        .then(r => r.json())
+        .then(data => {
+          // console.clear();
+          if (data.error) {
+            this.setState({
+              country: "",
+              city: "",
+              region: "",
+              last_updated: 0,
+              temp_c: 0,
+              humidity: "",
+              text: "",
+              error: data.error.message,
+            });
+          } else {
+            this.setState({
+              country: data.location.country,
+              city: data.location.name,
+              region: data.location.region,
+              last_updated: data.current.last_updated,
+              temp_c: data.current.temp_c,
+              humidity: data.current.humidity,
+              text: data.current.condition.text,
+              error: "",
+            });
+          }
+        });
     }
+    /*=============== 2 ============== */
   }
+
   render() {
     return (
       <div className="App">

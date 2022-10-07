@@ -2,7 +2,7 @@ import "./App.css";
 import Form from "./components/Form";
 import ShowData from "./components/ShowData";
 import { Component } from "react";
-
+import axios from "axios";
 const API_KEY = "3e5ffc95afa94dd59f1213920220610";
 const WEB_LINK = "http://api.weatherapi.com/v1/current.json";
 
@@ -15,41 +15,41 @@ class App extends Component {
     temp_c: 0,
     humidity: 0,
     text: "",
-    error: "",
+    error: ""
   };
 
-  async SetData(e) {
+  SetData(e) {
     e.preventDefault();
     /*=============== 1 ============== */
-    if (e.target.country) {
-      let api_data = await fetch(
-        `${WEB_LINK}?key=${API_KEY}&q=${e.target.country.value}&aqi=no`
-      );
-      let data = await api_data.json();
-      if (data.error) {
-        this.setState({
-          country: "",
-          city: "",
-          region: "",
-          last_updated: 0,
-          temp_c: 0,
-          humidity: "",
-          text: "",
-          error: data.error.message,
-        });
-      } else {
-        this.setState({
-          country: data.location.country,
-          city: data.location.name,
-          region: data.location.region,
-          last_updated: data.current.last_updated,
-          temp_c: data.current.temp_c,
-          humidity: data.current.humidity,
-          text: data.current.condition.text,
-          error: "",
-        });
-      }
-    }
+    // if (e.target.country) {
+    //   let api_data = await fetch(
+    //     `${WEB_LINK}?key=${API_KEY}&q=${e.target.country.value}&aqi=no`
+    //   );
+    //   let data = await api_data.json();
+    //   if (data.error) {
+    //     this.setState({
+    //       country: "",
+    //       city: "",
+    //       region: "",
+    //       last_updated: 0,
+    //       temp_c: 0,
+    //       humidity: "",
+    //       text: "",
+    //       error: data.error.message
+    //     });
+    //   } else {
+    //     this.setState({
+    //       country: data.location.country,
+    //       city: data.location.name,
+    //       region: data.location.region,
+    //       last_updated: data.current.last_updated,
+    //       temp_c: data.current.temp_c,
+    //       humidity: data.current.humidity,
+    //       text: data.current.condition.text,
+    //       error: ""
+    //     });
+    //   }
+    // }
     /*=============== 1 ============== */
 
     /*=============== 2 ============== */
@@ -85,6 +85,37 @@ class App extends Component {
     //     });
     // }
     /*=============== 2 ============== */
+
+    /*=============== 3 ============== */
+    axios
+      .get(`${WEB_LINK}?key=${API_KEY}&q=${e.target.country.value}&aqi=no`)
+      .then(res => {
+        let data = res.data;
+        this.setState({
+          country: data.location.country,
+          city: data.location.name,
+          region: data.location.region,
+          last_updated: data.current.last_updated,
+          temp_c: data.current.temp_c,
+          humidity: data.current.humidity,
+          text: data.current.condition.text,
+          error: ""
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          country: "",
+          city: "",
+          region: "",
+          last_updated: 0,
+          temp_c: 0,
+          humidity: "",
+          text: "",
+          error: error.response.data.error.message
+        });
+      });
+    /*=============== 3 ============== */
   }
 
   render() {

@@ -28,7 +28,6 @@
   margin: auto;
   background-color: rgba(0, 0, 0, 0.6);
   margin-top: 100px;
-  height: 100px;
   padding: 0 10px;
 }
 
@@ -55,6 +54,31 @@
   width: 29%;
   height: 34px;
   cursor: pointer;
-  background-color: #222;
+  border: 1px solid #800;
+  background-color: #800;
   color: white;
+}
+
+.container .data {
+  width: 100%;
+  background-color: white;
+  margin-top: 5px;
+  padding: 0 0 1px 0;
+}
+
+.container .data .list {
+  padding: 0 20px;
+}
+
+.container .data .list > .item {
+  padding: 20px 0;
+  text-align: start;
+  font-weight: bold;
+  color: #800;
+  border-bottom: 2px solid black;
+  font-size: 20px;
+}
+
+.container .data .list > .item span {
+  color: black;
 }

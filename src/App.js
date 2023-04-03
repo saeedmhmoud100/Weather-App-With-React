@@ -3,7 +3,7 @@ import Form from "./components/Form";
 import ShowData from "./components/ShowData";
 import { Component } from "react";
 import axios from "axios";
-const API_KEY = "3e5ffc95afa94dd59f1213920220610";
+const API_KEY = "dd44ec9e66da4e2789d104708230304";
 const WEB_LINK = "https://api.weatherapi.com/v1/current.json";
 
 class App extends Component {
